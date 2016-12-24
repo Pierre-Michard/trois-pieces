@@ -35,6 +35,7 @@ class Home extends React.Component {
     return (
       <div className={s.root}>
         <div className={s.container}>
+          <a href="/search">Critères de recherche</a>
           <h1 className={s.title}>Annonces</h1>
           <div className="ui link cards">
             {this.props.adverts.map((item, index) => (

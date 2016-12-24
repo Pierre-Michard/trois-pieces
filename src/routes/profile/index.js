@@ -31,7 +31,7 @@ export default {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: '{me{username,email}}',
+        query: '{me{username,email,search{id}}}',
       }),
       credentials: 'include',
     });

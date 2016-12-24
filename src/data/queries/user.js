@@ -5,8 +5,9 @@ import {
 } from 'graphql';
 import jwt from 'jsonwebtoken';
 import UserType from '../types/UserType';
+import SearchType from '../types/SearchType';
 import ErrorType from '../types/ErrorType';
-import { User } from '../models';
+import { User, Search } from '../models';
 import { auth } from '../../config';
 
 const login = {
@@ -22,7 +23,7 @@ const login = {
             },
             token: {
               type: StringType,
-            },
+            }
           },
         }),
       },
@@ -43,7 +44,7 @@ const login = {
     const user = await User.findOne({
       where: {
         $or: [{ username: usernameOrEmailLC }, { email: usernameOrEmailLC }],
-      },
+      }
     });
 
     if (user && user.comparePassword(password)) {

@@ -7,11 +7,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import { combineReducers } from 'redux';
-import auth from './auth';
-import search from './search';
-
-export default combineReducers({
-  auth,
-  search,
-});
+export const UPDATE_SEARCH       = 'UPDATE_SEARCH';
+export const SAVE_SEARCH_REQUEST = 'SAVE_SEARCH_REQUEST';
+export const SAVE_SEARCH_SUCCESS = 'SAVE_SEARCH_SUCCESS';
+export const SAVE_SEARCH_FAILURE = 'SAVE_SEARCH_FAILURE';

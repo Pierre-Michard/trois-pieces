@@ -14,14 +14,22 @@ import {
   GraphQLNonNull as NonNull,
 } from 'graphql';
 
+import SearchType from './SearchType';
+
 const UserType = new ObjectType({
   name: 'User',
-  fields: {
+  fields: () => ({
     id: { type: new NonNull(ID) },
     username: { type: StringType },
     email: { type: StringType },
     createdAt: { type: StringType },
-  },
+    search: {
+      type: SearchType,
+      resolve(user){
+        return user.getSearch();
+      }
+    },
+  }),
 });
 
 export default UserType;

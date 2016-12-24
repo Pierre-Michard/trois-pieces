@@ -10,6 +10,7 @@
 import bcrypt from 'bcrypt-nodejs';
 import DataType from 'sequelize';
 import Model from '../sequelize';
+import Search from './Search'
 
 const User = Model.define('User', {
 
@@ -47,9 +48,9 @@ const User = Model.define('User', {
     generateHash: function (password) { // eslint-disable-line
       return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
     },
-    getViewer: function(user){
+    getViewer: async function(user){
       if(user && user.id !== undefined){
-        return this.findById(user.id);
+        return await this.findById(user.id);
       }
       return null;
     },

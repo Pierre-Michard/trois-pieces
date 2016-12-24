@@ -7,17 +7,21 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import sequelize from '../sequelize';
-import User from './User';
-import Advert from './Advert';
+import React from 'react';
+import Layout from '../../components/Layout';
 import Search from './Search';
 
-User.hasOne(Search);
-Search.belongsTo(User);
+const title = 'Search';
 
-function sync(...args) {
-  return sequelize.sync(...args);
-}
+export default {
 
-export default { sync };
-export { User, Advert, Search };
+  path: '/search',
+
+  action({ store }) {
+    return {
+      title,
+      component: <Layout><Search title={title} /></Layout>,
+    };
+  },
+
+};
