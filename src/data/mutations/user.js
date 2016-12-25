@@ -2,12 +2,14 @@ import {
   GraphQLObjectType as ObjectType,
   GraphQLNonNull as NonNull,
   GraphQLString as StringType,
+  GraphQLInt as IntType,
 } from 'graphql';
 import jwt from 'jsonwebtoken';
 import UserType from '../types/UserType';
 import ErrorType from '../types/ErrorType';
 import { User } from '../models';
 import { auth } from '../../config';
+import {updateSearch} from './search';
 
 const signup = {
   type: new ObjectType({
@@ -78,4 +80,16 @@ const signup = {
   },
 };
 
-export default { signup };
+const me = {
+  type: new ObjectType({
+    name: 'me',
+    fields: {
+      updateSearch: updateSearch
+    }
+  }),
+  resolve: (root, args, context) => {
+    return User.getViewer(context.user);
+  }
+};
+
+export default { signup,  me};

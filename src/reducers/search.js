@@ -8,7 +8,9 @@
  */
 
 import {
-  UPDATE_SEARCH, SAVE_SEARCH_REQUEST, SAVE_SEARCH_SUCCESS, SAVE_SEARCH_FAILURE,
+  UPDATE_SEARCH,
+  GET_SEARCH_REQUEST, GET_SEARCH_SUCCESS, GET_SEARCH_FAILURE,
+  SAVE_SEARCH_REQUEST, SAVE_SEARCH_SUCCESS, SAVE_SEARCH_FAILURE,
 } from '../constants/search';
 
 const initialState = {
@@ -22,7 +24,7 @@ const initialState = {
   max_surface: 60,
 };
 
-export default function auth(state = initialState, action) {
+export default function search(state = initialState, action) {
   switch (action.type) {
     case UPDATE_SEARCH:
       return {
@@ -44,6 +46,21 @@ export default function auth(state = initialState, action) {
         ...state,
         isFetching: false,
       };
+    case GET_SEARCH_REQUEST:
+      return {
+        ...state,
+      };
+    case GET_SEARCH_SUCCESS:
+      return {
+        ...state,
+        ...action.payload.search,
+      };
+    case GET_SEARCH_FAILURE:
+      return {
+        ...state,
+        errors: action.payload.errors,
+      };
+
 
     default:
       return state;

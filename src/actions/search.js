@@ -8,13 +8,36 @@
  */
 
 import {
+  GET_SEARCH_REQUEST, GET_SEARCH_SUCCESS, GET_SEARCH_FAILURE,
   UPDATE_SEARCH, SAVE_SEARCH_REQUEST, SAVE_SEARCH_SUCCESS, SAVE_SEARCH_FAILURE,
 } from '../constants/search';
 import history from '../core/history';
 
-/**
- * Sign up actions
- */
+
+function getSearchRequest() {
+
+  return {
+    type: GET_SEARCH_REQUEST,
+    payload: {}
+  };
+}
+
+function getSearchSuccess(search) {
+
+  return {
+    type: GET_SEARCH_SUCCESS,
+    payload: {search}
+  };
+}
+
+function getSearchFailure(errors) {
+
+  return {
+    type: GET_SEARCH_FAILURE,
+    payload: {errors}
+  };
+}
+
 function updateSearchEvt(search) {
 
   return {
@@ -92,3 +115,42 @@ export function updateSearch(search) {
   };
 }
 
+export function getSearch() {
+  return async (dispatch, getState, { graphqlRequest }) => {
+    dispatch(getSearchRequest());
+
+    try {
+      const { data } = await graphqlRequest(`
+        query{
+          me{
+            search{
+              localisation,
+                min_surface,
+                max_surface,
+                min_price,
+                max_price,
+                min_rooms,
+                max_rooms
+            }
+          }
+        }
+      `);
+
+      const  { me:{search}, errors } = data;
+
+      if (errors && errors.length > 0) {
+        dispatch(getSearchFailure(errors));
+      } else {
+        dispatch(getSearchSuccess(search));
+      }
+    } catch (e) {
+      const errors = [
+        {
+          key: 'general',
+          message: `Unexpected server error: ${e.message}`,
+        },
+      ];
+      dispatch(getSearchFailure(errors));
+    }
+  }
+}

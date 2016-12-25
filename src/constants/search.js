@@ -7,7 +7,11 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-export const UPDATE_SEARCH       = 'UPDATE_SEARCH';
-export const SAVE_SEARCH_REQUEST = 'SAVE_SEARCH_REQUEST';
-export const SAVE_SEARCH_SUCCESS = 'SAVE_SEARCH_SUCCESS';
-export const SAVE_SEARCH_FAILURE = 'SAVE_SEARCH_FAILURE';
+export const UPDATE_SEARCH        = 'UPDATE_SEARCH';
+export const SAVE_SEARCH_REQUEST  = 'SAVE_SEARCH_REQUEST';
+export const SAVE_SEARCH_SUCCESS  = 'SAVE_SEARCH_SUCCESS';
+export const SAVE_SEARCH_FAILURE  = 'SAVE_SEARCH_FAILURE';
+export const GET_SEARCH_REQUEST   = 'GET_SEARCH_REQUEST';
+export const GET_SEARCH_SUCCESS   = 'GET_SEARCH_SUCCESS';
+export const GET_SEARCH_FAILURE   = 'GET_SEARCH_FAILURE';
+

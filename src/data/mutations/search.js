@@ -8,73 +8,28 @@ import SearchType from '../types/SearchType';
 import ErrorType from '../types/ErrorType';
 import { Search } from '../models';
 
-const signup = {
-  type: new ObjectType({
-    name: 'signupResult',
-    fields: {
-      data: {
-        type: new ObjectType({
-          name: 'signupResultData',
-          fields: {
-            user: {
-              type: UserType,
-            },
-            token: {
-              type: StringType,
-            },
-          },
-        }),
-      },
-      errors: {
-        type: ErrorType,
-      },
-    },
-  }),
+const updateSearch = {
+  type: SearchType,
   args: {
-    username: { type: new NonNull(StringType) },
-    email: { type: new NonNull(StringType) },
-    password: { type: new NonNull(StringType) },
+    localisation: { type: StringType },
+    min_price: { type: IntType },
+    max_price: { type: IntType },
+    min_rooms: { type: IntType },
+    max_rooms: { type: IntType },
+    min_surface: { type: IntType },
+    max_surface: { type: IntType }
   },
-  async resolve(root, { username, email, password }) {
-    let user = null;
-    let token = null;
-    const errors = [];
-
-    if (password.length < 8) {
-      errors.push({ key: 'password', message: 'Password must be at least 8 characters long' });
-    }
-
-    // check to see if there's already a user with that email
-    const count = await User.count({ where: { email } });
-
-    if (count > 0) {
-      errors.push({ key: 'email', message: 'User with this email already exists' });
-    }
-
-    if (errors.length === 0) {
-      user = await User.create({
-        username,
-        email: email.toLowerCase(),
-        password: User.generateHash(password),
-      });
-
-      token = jwt.sign({ id: user.id }, auth.jwt.secret, { expiresIn: auth.jwt.expires });
-
-      user = await User.findOne({
-        where: { email },
-      });
-    }
-
-    const data = {
-      user,
-      token,
-    };
-
-    return {
-      data,
-      errors,
-    };
-  },
+  resolve: (user, args) => {
+    return user
+      .getSearch(args)
+      .then((search) => {
+        if (search == null) {
+          return user.createSearch(args);
+        } else {
+          return search.update(args);
+        }
+      })
+  }
 };
 
-export default { signup };
+export { updateSearch };

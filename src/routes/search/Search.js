@@ -11,7 +11,7 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from '../home/Home.css';
 import { connect } from 'react-redux';
-import { updateSearch, saveSearch } from '../../actions/search';
+import { updateSearch, saveSearch, getSearch } from '../../actions/search';
 
 class Search extends React.Component {
   static propTypes = {
@@ -23,6 +23,10 @@ class Search extends React.Component {
     min_surface: PropTypes.number,
     max_surface: PropTypes.number,
   };
+
+  componentDidMount() {
+    this.props.getSearch();
+  }
 
   handleChange(e) {
     let value = e.target.value;
@@ -137,4 +141,4 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps, {updateSearch, saveSearch})(withStyles(s)(Search));
+export default connect(mapStateToProps, {updateSearch, saveSearch, getSearch})(withStyles(s)(Search));
